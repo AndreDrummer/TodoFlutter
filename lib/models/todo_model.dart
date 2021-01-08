@@ -1,4 +1,4 @@
-import 'package:todo/models/task_model.dart';
+import 'task_model.dart';
 
 class TodoModel {
   TodoModel({

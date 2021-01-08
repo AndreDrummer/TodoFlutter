@@ -22,9 +22,12 @@ environment:
 
 dependencies:
   flutter:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter  
   sqflite: ^1.3.2+1
   path_provider: ^1.6.24  
+  intl: ^0.16.1  
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -34,6 +37,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.8.1
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/todo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

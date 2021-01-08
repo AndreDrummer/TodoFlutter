@@ -2,24 +2,23 @@ class Task {
   Task({
     this.taskID,
     this.taskName,
-    this.taskColor,
-    this.taskIsDone,
+    this.taskIsDone = false,
     this.taskFinalDate,
     this.taskDescription,
     this.taskInitialDate,
+    this.taskColor = 'blue',
   });
 
-  Task.fromMap(Map<String, dynamic> map) {
-    taskID = map['taskID'];
-    taskName = map['taskName'];
-    taskColor = map['taskColor'];
-    taskIsDone = map['taskIsDone'];
-    taskFinalDate = map['taskFinalDate'];
-    taskDescription = map['taskDescription'];
-    taskInitialDate = map['taskInitialDate'];
-  }
+  Task.fromMap(Map<String, dynamic> map)
+      : taskID = map['taskID'],
+        taskName = map['taskName'],
+        taskIsDone = map['taskIsDone'] == 1,
+        taskColor = map['taskColor'],
+        taskFinalDate = map['taskFinalDate'],
+        taskDescription = map['taskDescription'],
+        taskInitialDate = map['taskInitialDate'];
 
-  String taskID;
+  int taskID;
   String taskName;
   bool taskIsDone;
   String taskColor;
@@ -32,7 +31,7 @@ class Task {
       'taskID': taskID,
       'taskName': taskName,
       'taskColor': taskColor,
-      'taskIsDone': taskIsDone,
+      'taskIsDone': taskIsDone ? 1 : 0,
       'taskFinalDate': taskFinalDate,
       'taskDescription': taskDescription,
       'taskInitialDate': taskInitialDate,

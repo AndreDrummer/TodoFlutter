@@ -2,7 +2,8 @@ import "dart:io";
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:todo/models/task_model.dart';
+
+import '../models/task_model.dart';
 
 class TaskDB {
   TaskDB._();
@@ -26,14 +27,15 @@ class TaskDB {
       version: 1,
       onCreate: (Database db, int version) async {
         await db.execute('''
-      CREATE TABLE IF NOT EXISTS $tableName (
-        id integer primary key autoincrement,
-        name text not null,
-        description text,
-        completed integer not null,
-        color text not null,
-        initialDate text not null,
-        finalDate text)
+      CREATE TABLE IF NOT EXISTS $tableName (        
+        taskID integer primary key autoincrement,
+        taskName text not null,
+        taskDescription text,
+        taskIsDone integer not null,
+        taskColor text not null,
+        taskFinalDate text,
+        taskInitialDate text not null
+        )
       ''');
       },
     );
@@ -43,8 +45,9 @@ class TaskDB {
 
   Future<Task> createTask(Task task) async {
     Database db = await database;
-    int taskID = await db.insert(tableName, task.toMap());
-    task.taskID = taskID.toString();
+    Map<String, dynamic> taskMap = task.toMap();
+    task.taskIsDone ? taskMap['taskIsDone'] = 1 : taskMap['taskIsDone'] = 0;
+    task.taskID = await db.insert(tableName, taskMap);
     return task;
   }
 
@@ -52,7 +55,7 @@ class TaskDB {
     Database db = await database;
     List<Map<String, dynamic>> task = await db.query(
       tableName,
-      where: 'id = ?',
+      where: 'taskID = ?',
       whereArgs: [taskID.toString()],
     );
     return Task.fromMap(task.first);
@@ -60,10 +63,12 @@ class TaskDB {
 
   Future<int> updateTask(Task task) async {
     Database db = await database;
+    Map<String, dynamic> taskMap = task.toMap();
+    task.taskIsDone ? taskMap['taskIsDone'] = 1 : taskMap['taskIsDone'] = 0;
     return await db.update(
       tableName,
-      task.toMap(),
-      where: 'id = ?',
+      taskMap,
+      where: 'taskID = ?',
       whereArgs: [task.taskID],
     );
   }
@@ -72,7 +77,7 @@ class TaskDB {
     Database db = await database;
     return await db.delete(
       tableName,
-      where: 'id = ?',
+      where: 'taskID = ?',
       whereArgs: [taskID.toString()],
     );
   }

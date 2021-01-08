@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:todo/bloc/bloc.dart';
+import 'bloc.dart';
 
 class BlocProvider<T extends Bloc> extends InheritedWidget {
   BlocProvider({
